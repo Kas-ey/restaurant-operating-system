@@ -6,6 +6,8 @@ from ros.common.routes import common_bp
 from ros.core.config import config
 from ros.core.extensions import db, migrate
 from ros.core.logging import configure_logging
+from ros.http.errors import error_response
+from ros.shared.exceptions import ROSException
 
 
 def _load_configuration(app: Flask, config_name: str | None = None) -> type:
@@ -31,4 +33,9 @@ def create_app(config_name: str | None = None) -> Flask:
     _init_extensions(app)
     configure_logging(app)
     app.register_blueprint(common_bp)
+
+    @app.errorhandler(ROSException)
+    def handle_ros_exception(error: ROSException):
+        return error_response(error.message, error.status_code)
+
     return app

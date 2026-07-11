@@ -1,8 +1,11 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint
 
-common_bp = Blueprint("common", __name__)
+from ros.http import success_response
+
+common_bp = Blueprint("common", __name__, url_prefix="/api/v1")
 
 
 @common_bp.get("/health")
 def health_check():
-    return jsonify({"status": "healthy"}), 200
+    return success_response({"status": "healthy"}, 200)
+
