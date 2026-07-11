@@ -1,6 +1,11 @@
 import os
 
+from dotenv import load_dotenv
+
 from ros.shared.exceptions import ConfigurationError
+
+
+load_dotenv()
 
 
 class Config:

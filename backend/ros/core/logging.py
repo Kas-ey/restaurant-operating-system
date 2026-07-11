@@ -43,4 +43,8 @@ def configure_logging(app: Flask) -> None:
     app.logger.setLevel(level)
     app.logger.propagate = False
 
+    for handler in list(app.logger.handlers):
+        if not getattr(handler, "_ros_logging_handler", False):
+            app.logger.removeHandler(handler)
+
     app.logger.info("Logging initialized.")
