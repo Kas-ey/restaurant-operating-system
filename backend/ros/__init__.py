@@ -7,6 +7,11 @@ from ros.core.config import config
 from ros.core.extensions import db, migrate
 from ros.core.logging import configure_logging
 from ros.http.errors import error_response
+from ros.identity.api import identity_bp
+from ros.inventory import inventory_bp
+from ros.organization.api import organization_bp
+from ros.products import products_bp
+from ros.recipes import recipes_bp
 from ros.shared.exceptions import ROSException
 
 
@@ -33,6 +38,11 @@ def create_app(config_name: str | None = None) -> Flask:
     _init_extensions(app)
     configure_logging(app)
     app.register_blueprint(common_bp)
+    app.register_blueprint(identity_bp)
+    app.register_blueprint(organization_bp)
+    app.register_blueprint(products_bp)
+    app.register_blueprint(inventory_bp)
+    app.register_blueprint(recipes_bp)
 
     @app.errorhandler(ROSException)
     def handle_ros_exception(error: ROSException):
